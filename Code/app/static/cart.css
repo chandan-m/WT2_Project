@@ -1,0 +1,50 @@
+body{
+    background: #A9A9A9;
+}
+
+.box{
+	width: 90%;
+	height: 100%;
+	margin: 0px auto;
+	overflow: auto;
+    background-color:#f2f2f2;
+    border-radius: 25px;
+	position: relative;
+	text-align: center;
+}
+
+#cart-table{
+    background-color:white;
+    margin:auto;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+    border-color: #f2f2f2;
+}
+th {
+    background-color: #2F4F4F;
+    color: white;
+    border: #2F4F4F;
+}
+td{
+
+}
+
+.btn{
+    padding: 10px;
+    font-size: 15px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+}
+#btnp{
+    margin-bottom:25px;
+    text-align: center;
+}
+#clear{
+    background: red;
+}
+#confirm{
+    background: green;
+}

@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/ff1e0b8b21.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='HnF.css') }}">
+</head>
+<body>
+    <div id="head-container">
+        <div id="logo"><a href="{{ url_for('home') }}"><img id="logoimg" src="static\Images\logo.jpg" alt="Shopping" ></a></div>
+        <div id="search">
+            <form method="get" action="search.php">
+                <input id="search-box"type="text" name="key" placeholder="Search...">
+                <button type="submit" id="search-btn" name="search" >
+                    <img src="static\Images\search.png" height="20px" alt="Search"/>
+                </button>
+            </form>
+        </div>
+        <p style='float:right;color:white;padding:30px;'>Welcome <strong>{{ current_user.username }}</strong></p>
+    </div>
+        <div class="navbar" id="menu">
+            <div class="left">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="">Categories</a>
+            <a href="">Products</a>
+            <a href="#">About Us</a>
+            </div>
+            <div class="right" id="notify">
+                <a href="myorders.php">
+                    <img src="static\Images\bell.png" height="40px"/>
+                </a>
+            </div>
+            <div class="right" id="cart">
+                <a class="right" href="cart.php">
+                    <img src="static\Images\cart.png" height="40px"/>
+                </a>
+            </div>
+            <div class="right" id="wallet">
+                <a class="right" href="wallet.php">
+                    <img src="static\Images\wallet.png" height="40px"/>
+                </a>
+            </div>
+            <div class="right" id="wallet">
+                <a class="right" href="liked.php">
+                    <img src="static\Images\like.png" height="40px"/>
+                </a>
+            </div>
+            <div id="account" class="dropdown">
+                <button class="dropbtn">
+                    <img src="static\Images\acc.png" height="40px"/>
+                </button>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('logout') }}">Log Out</a>
+                    <a href="myorders.php">My Orders</a>
+                    <a href="myacc.php">My Account</a>
+                    <a href="liked.php">Liked Products</a>
+                </div>
+            </div>
+        </div>
+    <br>
+</body>
+</html>

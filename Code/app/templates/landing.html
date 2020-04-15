@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/ff1e0b8b21.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+	<div class="header bg-warning">
+		<h2>User Login</h2>
+	</div>
+	<form method="post" action="">
+		{{ form.hidden_tag() }}
+		{% with messages = get_flashed_messages(with_categories=true) %}
+			{% if messages %}
+				{% for category,message in messages %}
+					<div class="alert alert-{{ category }}">
+						{{ message }}
+					</div>
+				{% endfor %}
+			{% endif %}
+		{% endwith %}
+		<div class="input-group">
+			{{ form.username.label }}
+			{% if form.username.errors %}
+				{{ form.username(class="is-invalid") }}
+				<div class="invalid-feedback">
+					{% for error in form.username.errors %}
+						<span>{{ error }}</span>
+					{% endfor %}
+				</div>
+			{% else %}
+				{{ form.username }}
+			{% endif %}
+		</div>
+		<div class="input-group">
+			{{ form.password.label }}
+			{% if form.password.errors %}
+				{{ form.password(class="is-invalid") }}
+				<div class="invalid-feedback">
+					{% for error in form.password.errors %}
+						<span>{{ error }}</span>
+					{% endfor %}
+				</div>
+			{% else %}
+				{{ form.password }}
+			{% endif %}
+		</div>
+		<div class="input-group">
+			{{ form.remember(class="form-check-input") }}
+			{{ form.remember.label(class="form-check-label") }}
+		</div>
+		<div class="input-group">
+			{{ form.submit(class="btn btn-outline-warning btn-outline bg-warning") }}
+		</div>
+		<p>
+			Not a member yet? <a href="{{ url_for('register') }}">Sign up</a>
+		</p>
+	</form>
+
+</body>
+</html>

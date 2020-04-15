@@ -1,0 +1,44 @@
+{% extends "template.html" %}
+<!------------------------------------------------------------------------->
+{% block headcontent %}
+    <title>Wallet</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='')}}table.css">
+{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodytag %}<body>{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodycontent %}
+<br>  
+<div class="container" style="width:1000px;margin:auto;border: 3px solid #2F4F4F;" align="center">  
+    <h1 align="center">Wallet</h1>
+    <p style='width:400px;margin:auto;border: 3px solid #2F4F4F;style='font-size:30px;'> Wallet Balance : Rs.{{balance}}</p>
+    <br>
+    <form method='GET' action="{{ url_for('wallet_topup') }}">
+    <label>Amount : <input type='number' name='amt' value='0' min='1' max='1000000'> </label>
+    <button type='submit' name='topup' class='btn'>TopUp</button>
+    </form>
+    <br>
+    {% if rows|length == 0 %}
+        <p style="font-size:25px;color:red;">No Transaction History</p>
+    {% else %}
+        <p style="font-size:25px;color:blue;">Transaction History</p>
+        <table class="table table-bordered">  
+            <tr>  
+                <th>Txn_id</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Date</th>
+            </tr>  
+            {% for row in rows %} 
+                    <tr>  
+                        <td> {{row['Txn_id']}} </td>
+                        <td> {{row['Amount']}} </td>
+                        <td> {{row['Type']}} </td>
+                        <td> {{row['Tdate']}} </td>
+                    </tr>     
+            {% endfor %}  
+    {% endif %}
+    </table>  
+</div>  
+{% endblock bodycontent %}
+<!------------------------------------------------------------------------->

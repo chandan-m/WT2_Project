@@ -1,0 +1,24 @@
+{% extends "s_template.html" %}
+<!------------------------------------------------------------------------->
+{% block headcontent %}
+    <title> {{title}} </title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='')}}table.css">
+{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodytag %}<body>{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodycontent %}
+<div style="text-align: center;">
+    <h1> {{ title }} </h1>
+    {% if prod is defined %}
+        <h3><a href="{{url_for('product_analytics',what='qty',pid=prod['Prod_id'])}}">Quantity</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{url_for('product_analytics',what='amt',pid=prod['Prod_id'])}}">Amount</a></h3>
+        <h2>{{prod['Name']}}</h2>
+        <img src="{{url_for('static',filename='')}}Images/Products/{{ prod['Prod_id'] }}.jpg" style="height:100px;margin:auto;"><br><br>
+    {% else %}
+        <h3><a href="{{url_for('seller_analytics',what='qty')}}">Quantity</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{url_for('seller_analytics',what='amt')}}">Amount</a></h3>
+    {% endif %}
+    <img src="{{url_for('static',filename='')}}sgraph.png?ver={{ range(111, 999)|random }}" style="width:60%;margin:auto;border: 5px solid #ffbb33;">
+    
+</div>
+{% endblock bodycontent %}
+<!------------------------------------------------------------------------->

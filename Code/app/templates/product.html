@@ -1,0 +1,260 @@
+{% extends "template.html" %}
+{% block headcontent %}
+<title>Product Page</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='')}}product.css">
+
+{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodytag %}<body onload="probj.getData()">{% endblock %} 
+{% block bodycontent %}
+<!------------------------------------------------------------------------------------------------------------>
+
+<div class="container">
+        <div class="card">
+            <div class="container-fliud">
+                <div class="wrapper row">
+                    <div class="preview col-md-6">
+                        
+                        <div class="preview-pic tab-content">
+                          <div class="tab-pane active" id="pic-1"><img src="{{url_for('static',filename='')}}Images/Products/{{ row['Prod_id'] }}.jpg" height='400px' style='max-width:400px' /></div>
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="details col-md-6">
+                        <h3 class="product-title">{{row['Name']}}</h3>
+                        <p style='font-size:20px;color:grey;' >Brand - <b>{{row['Brand']}}</b> </p>
+                        <div class="rating">
+                            <div class="stars">
+                                <span class="fa fa-star checked"><h5> {{ratings|round(1, 'floor')}} / 5</h5></span>
+                            </div>
+                            <span class="review-no">{{reviews|length }} reviews</span>
+                        </div>
+                        <p class="product-description">{{row['Description']}}</p>
+                        <h4 class="price">Current price: Rs.<span id="price">{{row['Price']}}</span></h4>
+                        <p style='font-size:15px;' > Stocks left - <strong><span id="stock">{{row['Stock']}}</span></strong> </p>
+                        <p style='font-size:15px;' > Discount - <i><span id="discount">{{row['Discount']}}</span> %</i></p>
+                        {% set dprice = row['Price']*(1-(row['Discount']/100)) %}
+						<p style='font-size:25px;' > Offer Price - Rs.<span id="fprice">{{ dprice|round(2, 'floor') }}</span></p>
+                        <p><img id="lbutt" src='' height='20px' onclick="lobj.like()">:<span id="lcount">{{likes}}</span> &nbsp; &nbsp; <img id="dbutt" src='' height='20px' onclick="lobj.dislike()">:<span id="dcount">{{dislikes}}</span> </p>
+
+                        <form id="addCart" method='get' action="{{url_for('add_cart')}}">
+                        <p>
+                            <input type='hidden' name='pid' value="{{ row['Prod_id'] }}">
+                            <label>Quanitiy:<input type='number' name='qty' value='1' min='1' max='10'></label>
+                            <button id='button' type='submit' class='add-to-cart btn btn-default'>Add To Cart</button>
+                        </p>
+                        </form>
+                        <div id="cartResult"style='text-align:center;width:50%;margin:auto;color:black;font-size:15px;padding:5px;border-radius:15px;display:none;'></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<hr class="my-5">
+
+<h3 class="row-head"><b>Recommended products</b></h3>
+<br>
+<br>
+
+<center>
+<section id="gallery" class="text-center">
+<div class="row col-sm-12 text-center" >
+  	<div class="container" ng-app="Application" ng-controller="Controller">
+    <div class="item tile__img" ng-repeat="row in rows">
+		<a href="{{ url_for('product',pid='') }}{a row a}">
+			<img class="tile__img" src="{{url_for('static',filename='')}}Images/Products/{a row a}.jpg" style="max-width: 150px;max-height: 150px;">
+		</a>
+	</div>
+    
+	</div>
+</div>
+</section>
+</center>
+<br>
+<br>
+<br>
+<hr class="my-5">
+    <div class="container">
+        <div class="card">
+            <div class="container-fliud">
+                <div class="wrapper row">
+                    <div class="preview col-md-6">
+                        <form id="postReview" method='get' action="{{ url_for('post_review') }}">
+                        <p><input type='hidden' name='prod_id' value="{{ row['Prod_id'] }}">
+                        <label>Ratings:<input type='number' name='rt' value='1' min='1' max='5'></label>
+                        <label>Review:
+                        <textarea rows='2' cols='50' name='rv' placeholder='Enter your review....'></textarea>
+                        </label>
+                        <button id='button' type='submit' class='btn'>Submit</button></p>
+                        </form>
+                        </div>
+                        <div class="details col-md-6">
+                         <p style='font-size:20px;color:blue;'>Reviews - </p>
+                          <table id="revTable" align='center' style='text-align:center;'>
+                            <tr><th>Ratings</th><th>Date</th><th>Description</th></tr>
+                            {% for item in reviews %}
+                                <tr><td>{{item['Ratings']}}</td><td>{{ item['Rdate']}}</td><td>{{item['Description']}}</td></tr>
+                            {% endfor %}
+                            </table>
+
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <script>
+        // RESTful API for likeop
+        var lobj = {
+            xhr: new XMLHttpRequest(),
+            lstat: 0,
+            lbutt: document.getElementById('lbutt'),
+            dbutt: document.getElementById('dbutt'),
+            lcount:document.getElementById('lcount'),
+            dcount:document.getElementById('dcount'),
+            btns: ["{{url_for('static',filename='')}}Images/l.png","{{url_for('static',filename='')}}Images/ls.png","{{url_for('static',filename='')}}Images/d.png","{{url_for('static',filename='')}}Images/ds.png"],
+            set_lstat: function(x)
+            {
+                lobj.lstat = x;
+                switch(x)
+                {
+                    case 0:lobj.lbutt.src=lobj.btns[0];lobj.dbutt.src=lobj.btns[2];break;
+                    case 1:lobj.lbutt.src=lobj.btns[1];lobj.dbutt.src=lobj.btns[2];break;
+                    case 2:lobj.lbutt.src=lobj.btns[0];lobj.dbutt.src=lobj.btns[3];
+                }
+            },
+            like: function ()
+            {
+                lobj.xhr.onreadystatechange = function(){
+                    if(this.readyState==4 && this.status==200){
+                        switch(lobj.lstat)
+                        {
+                            case 0:lobj.set_lstat(1);break;
+                            case 1:lobj.set_lstat(0);break;
+                            case 2:lobj.set_lstat(1);
+                        }
+                        var res=this.responseText;
+                        var json=JSON.parse(res);
+                        lcount.innerHTML = json['likes'];
+                        dcount.innerHTML = json['dislikes'];
+                    }
+                }
+                switch(lobj.lstat)
+                {
+                    case 0:lobj.xhr.open("GET","{{ url_for('likeop') }}?pid={{row['Prod_id']}}&op=1");lobj.xhr.send();break;
+                    case 1:lobj.xhr.open("GET","{{ url_for('likeop') }}?pid={{row['Prod_id']}}&op=3");lobj.xhr.send();break;
+                    case 2:lobj.xhr.open("GET","{{ url_for('likeop') }}?pid={{row['Prod_id']}}&op=1");lobj.xhr.send();
+                }
+            },
+            dislike: function()
+            {
+                lobj.xhr.onreadystatechange = function(){
+                    if(this.readyState==4 && this.status==200){
+                        switch(lobj.lstat)
+                        {
+                            case 0:lobj.set_lstat(2);break;
+                            case 1:lobj.set_lstat(2);break;
+                            case 2:lobj.set_lstat(1);
+                        }
+                        var res=this.responseText;
+                        var json=JSON.parse(res);
+                        lcount.innerHTML = json['likes'];
+                        dcount.innerHTML = json['dislikes'];
+                    }
+                }
+                switch(lobj.lstat)
+                {
+                    case 0:lobj.xhr.open("GET","{{ url_for('likeop') }}?pid={{row['Prod_id']}}&op=2");lobj.xhr.send();break;
+                    case 1:lobj.xhr.open("GET","{{ url_for('likeop') }}?pid={{row['Prod_id']}}&op=2");lobj.xhr.send();break;
+                    case 2:lobj.xhr.open("GET","{{ url_for('likeop') }}?pid={{row['Prod_id']}}&op=4");lobj.xhr.send();
+                }
+            }
+        };
+        lobj.set_lstat({{ lstat }});
+
+        // Periodic Refresh with Exponential Backoff for Product Quantity
+        var probj = {
+            n: 1,
+            xhr: new XMLHttpRequest(),
+            stock: document.getElementById("stock"),
+            price: document.getElementById("price"),
+            discount: document.getElementById("discount"),
+            fprice: document.getElementById("fprice"),
+            getData: function()
+            {
+                console.log("Get Data");
+                probj.xhr.timeout = 10000;
+                probj.xhr.ontimeout = probj.backoff;
+                probj.xhr.onload=probj.showData;
+                probj.xhr.open("GET","{{ url_for('get_stock') }}?pid={{row['Prod_id']}}",true);
+                probj.xhr.send();
+            },
+            showData: function()
+            {
+                console.log("Show Data");
+                probj.n=1;
+                console.log(this.responseText);
+                var res=JSON.parse(this.responseText);
+                probj.stock.innerHTML=res['Stock'];
+                probj.price.innerHTML=res['Price'];
+                probj.discount.innerHTML=res['Discount'];
+                probj.fprice.innerHTML=res['Fprice'];
+                setTimeout(probj.getData,10000);
+            },
+            backoff: function()
+            {
+                console.log("Timeout");
+                setTimeout(probj.getData,probj.n*2*10000);
+                probj.n=probj.n*2;
+            }
+        };
+        //jQuery For Add To Cart Submission
+        $(document).on('submit', '#addCart', function(e) {
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: $(this).serialize(),
+                success: function(data)
+                {
+                    $("#cartResult").html(data);
+                    $("#cartResult").css({"display":"block","background-color":"#39fa39"});
+                },
+                error:function(data){
+                    $("#cartResult").html("Quantity Exceeds Available Stock");
+                    $("#cartResult").css({"display":"block","background-color":"#ff3b3b"});
+                }
+            });
+            e.preventDefault();
+        });
+        $(document).on('submit', '#postReview', function(e) {
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: $(this).serialize(),
+                success: function(data)
+                {
+                    $("#revTable tr:first").after(data);
+                }
+            });
+            e.preventDefault();
+        });
+		var app = angular.module("Application", []);
+		app.config(['$interpolateProvider', function($interpolateProvider) {
+					$interpolateProvider.startSymbol('{a');
+					$interpolateProvider.endSymbol('a}');
+				}]);
+		app.controller('Controller', function($scope, $http) {
+			$http.get("{{url_for('recommend',pid=row['Prod_id'])}}")
+			.then(function (response) {
+				$scope.rows = response.data;
+				console.log(response.data);
+			});
+		});
+    </script>
+{% endblock bodycontent %}

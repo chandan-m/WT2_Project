@@ -1,0 +1,45 @@
+{% if type=='c' %}
+    {% extends "template.html" %}
+{% else %}
+    {% extends "s_template.html" %}
+{% endif %}
+<!------------------------------------------------------------------------->
+{% block headcontent %}
+  
+<title>My Account</title>
+<style>
+    body{
+        background-color: #DCDCDC;
+    }
+    .acc{
+        padding:50px;
+        background-color: #faff82;
+        border-radius:15px;
+        width:500px;
+        text-align:center;
+        top:25px;
+        margin:auto;
+    } 
+    #d{
+        text-align:left;
+    }  
+</style>
+{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodytag %}<body>{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodycontent %}
+<div class='acc'>
+    <div class='he'><h3> Account Details - </h3><br></div>
+    <div id='b'>
+        User ID - {{uid}}<br>
+        Username - {{row['Usersname']}}<br>
+        Email - {{row['E_mail']}}<br>
+        Name - {{row['Fname']}} {{row['Lname']}}<br>
+        Phone No. - {{row['Ph_no']}}<br>
+        Address - {{row['Address']}}<br>
+        Pin - {{row['Pin']}}<br>
+    </div>
+</div>
+{% endblock bodycontent %}
+<!------------------------------------------------------------------------->

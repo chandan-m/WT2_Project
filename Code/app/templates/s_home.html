@@ -1,0 +1,84 @@
+{% extends "s_template.html" %}
+<!------------------------------------------------------------------------->
+{% block headcontent %}
+    <title> Seller - Home </title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='')}}table.css">
+{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodytag %}<body>{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodycontent %}
+<br> 
+    <div class="box" style="width:1000px;margin:auto;border: 3px solid #2F4F4F;border-radius:25px;">
+        <h2 align='center'> My Products - </h2><br><br>
+        {% if rows|length==0 %}
+            <p style='text-align:center;'>No Products.</p>
+        {% else %}
+            <table>
+            <tr>
+                <th>Product Id</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Discount</th>
+                <th>Final Price</th>
+                <th>Quantity</th>
+            </tr>
+            {% for row in rows %}
+                {% set fprice = row['Price']*(1-row['Discount']/100) %}
+                <tr>
+                    <td>{{row['Prod_id']}}</td>
+                    <td><a href="{{url_for('product_analytics',what='qty',pid= row['Prod_id'])}}">
+                        <img src="{{url_for('static',filename='')}}Images/Products/{{ row['Prod_id'] }}.jpg" height='100px'>
+                    </a></td>
+                    <td>{{row['Name']}}</td>
+                    <td>{{row['Price']}}</td>
+                    <td>{{row['Discount']}}</td>
+                    <td>{{fprice}}</td>
+                    <td>{{row['Stock']}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+        <br><br>
+    </div>
+    <br>
+    <div class="box" style="width:500px;margin:auto;border: 3px solid #2F4F4F;border-radius:25px;text-align:center;">
+        Update Product Quantity : 
+        <form method='get' action="{{url_for('seller_update')}}">
+            <select id='s1' name='pid' required>
+                {% for row in rows %}
+                    <option value="{{row['Prod_id']}}">{{row['Prod_id']}}</option>
+                {% endfor %}
+            </select>
+            <input name='value' type='number' value='0'>
+            <input name='what' value='qty' type='hidden'/>
+            <button type='submit' class='btn'>Submit</button></p>
+        </form>
+        <br>
+        Update Product Price : 
+        <form method='get' action="{{url_for('seller_update')}}">
+            <select id='s2' name='pid' required>
+                {% for row in rows %}
+                    <option value="{{row['Prod_id']}}">{{row['Prod_id']}}</option>
+                {% endfor %}
+            </select>
+            <input name='value' type='number' min='0' value='0'>
+            <input name='what' value='price' type='hidden'/>
+            <button type='submit' class='btn'>Submit</button></p>
+        </form>
+        <br>
+        Update Product Discount : 
+        <form method='get' action="{{url_for('seller_update')}}">
+            <select id='s3' name='pid' required>
+                {% for row in rows %}
+                    <option value="{{row['Prod_id']}}">{{row['Prod_id']}}</option>
+                {% endfor %}
+            </select>
+            <input name='value' type='number' min='0' value='0'>
+            <input name='what' value='disc' type='hidden'/>
+            <button type='submit' class='btn'>Submit</button></p>
+        </form>
+    </div>
+{% endblock bodycontent %}
+<!------------------------------------------------------------------------->

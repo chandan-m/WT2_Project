@@ -1,0 +1,26 @@
+{% extends "template.html" %}
+<!------------------------------------------------------------------------->
+{% block headcontent %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='')}}category.css">
+{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodytag %}<body>{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodycontent %}
+<div id="container" name="cat">
+    <div id='heading'> Categories </div>
+    
+    {%if rows|length == 0 %}
+        <p style='color:red;'>No Categories Exist</p>
+    
+    {% else %}
+        {% for row in rows %}
+            <a class="title" href="{{url_for('category',cat_name=row['Name'])}}">
+            <div class='category'>
+                <div class='catimg'> <img src="{{url_for('static',filename='')}}Images/Category/{{ row['Name'] }}.png"> </div>
+                <div class='name'> {{ row['Name'] }} </div>
+            </div></a>
+        {% endfor %}
+    {% endif %}
+{% endblock bodycontent %}
+<!------------------------------------------------------------------------->

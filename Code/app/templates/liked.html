@@ -1,0 +1,34 @@
+{% extends "template.html" %}
+<!------------------------------------------------------------------------->
+{% block headcontent %}
+    <title>Liked Products</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='')}}table.css">
+{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodytag %}<body>{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodycontent %}
+<br /><br />  
+<div class="container" style="width:1000px;margin:auto;border: 3px solid #2F4F4F;" align="center">  
+<h3 align="center">Favorite Products</h3>
+    {% if rows|length == 0 %}
+        <p style='text-align:center;'>No Products.</p>
+    {% else %}
+    <table class="table table-bordered">  
+        <tr>  
+            <th>Image</th>
+            <th>Name</th>
+            <th>Price</th>  
+        </tr>  
+        {% for row in rows %}  
+            <tr>  
+                <td> <a href="{{ url_for('product',pid=row['Prod_id']) }}"><img src="{{url_for('static',filename='')}}Images/Products/{{ row['Prod_id'] }}.jpg" height='100px'/></a> </td>
+                <td> {{row['Name']}} </td>
+                <td> {{row['Price']}} </td>
+            </tr>
+        {% endfor %}
+    {% endif %} 
+    </table>  
+</div>
+{% endblock bodycontent %}
+<!------------------------------------------------------------------------->   

@@ -1,0 +1,43 @@
+<a href="{{ url_for('product',pid='') }}" style='text-decoration: none;'>
+                <div class='prcont'>
+                    <img class='primg' src="{{url_for('static',filename='')}}Images/Products/.jpg" height='150px'/>
+                    <p style='color:black;font-size:25px;margin-bottom:5px;'> row['Name'] </p>
+                    <p style='color:grey;font-size:15px;margin-top:5px;'>By -  row['Brand'] </p>
+                    <p style='color:black;font-size:15px;margin-bottom:0;'>Price - Rs. row['Price'] </p>
+                    <p style='color:black;font-size:15px;margin-bottom:0;'>Discount -  row['Discount']  %</p>
+                    <p style='color:black;font-size:20px;margin-bottom:10px;'>Offer Price - Rs. dprice|round(2, 'floor') </p>
+                    <p>
+                         if row['Stock']>0 <font color='green'>In Stock</font>
+                         else <font color='red'>Out of Stock</font>s
+                    </p>
+                </div> </a>
+
+
+<br /><br />  
+    <div class="box" ng-app="Application" ng-controller="Controller"> 
+    <!--style="width:1000px;margin:auto;border: 3px solid green;padding:50px;border-radius:50px;"--> 
+        <p style='font-size:50px;margin-top:25px;margin-bottom:25px;'align="center">{{ title }}</p>   
+<!--        {% if rows|length==0 %}
+            <p>Couldn't find a matching product.</p><br>
+        {% endif %}
+ set dprice = row['Price']*(1-(row['Discount']/100)) -->
+        <div   ng-repeat="row in rows">
+            {a row a}
+        </div>
+        {a "Hello" a}
+    </div>
+    <script>
+        var app=angular.module("Application",[]);
+        app.config(['$interpolateProvider', function($interpolateProvider) {
+            $interpolateProvider.startSymbol('{a');
+            $interpolateProvider.endSymbol('a}');
+        }]);
+        app.controller("Controller",[function($scope,$http){
+            console.log("Hello");
+            $http.get("http://localhost:5000/search?key=Apple%20iPhone%208").then(function(response)
+			{
+                $scope.rows = response.data;
+                console.log($scope.rows);
+            });
+		}]);
+    </script>

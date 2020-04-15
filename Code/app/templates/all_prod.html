@@ -1,0 +1,55 @@
+{% extends "template.html" %}
+<!------------------------------------------------------------------------->
+{% block headcontent %}
+    <title>{{ title }}</title> 
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='')}}search-css.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        
+{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodytag %}<body >{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodycontent %}
+<br /><br />  
+    <div class="box" ng-app="Application" ng-controller="Controller"> 
+        <p style='font-size:50px;margin-top:25px;margin-bottom:25px;'align="center">{{ title }}</p>   
+        <p ng-if="rows.length <= 0">Couldn't find a matching product.</p><br>
+        <div class='prcont' ng-repeat="row in rows">
+            {a  a}
+            <a href="{{ url_for('product',pid='') }}{a row.Prod_id a}" style='text-decoration: none;'>
+                <div >
+                    <img class='primg' src="{{url_for('static',filename='')}}Images/Products/{a row.Prod_id a}.jpg" height='150px'/>
+                    <p style='color:black;font-size:25px;margin-bottom:5px;'> {a row.Name a} </p>
+                    <p style='color:grey;font-size:15px;margin-top:5px;'>By - {a row.Brand a} row['Brand'] </p>
+                    <p style='color:black;font-size:15px;margin-bottom:0;'>Price - Rs. {a row.Price a}row['Price'] </p>
+                    <p style='color:black;font-size:15px;margin-bottom:0;'>Discount - {a row.Discount a}row['Discount']  %</p>
+                    <p style='color:black;font-size:20px;margin-bottom:10px;'>Offer Price - Rs. {a row.Fprice a} </p>
+                    <p>
+                        <font color='green' ng-if='row.Stock > 0'>In Stock</font>
+                        <font color='red' ng-if='row.Stock <= 0'>Out of Stock</font>
+                    </p>
+                </div>
+            </a>
+        </div>
+    </div>
+<script>
+var app = angular.module("Application", []);
+app.config(['$interpolateProvider', function($interpolateProvider) {
+            $interpolateProvider.startSymbol('{a');
+            $interpolateProvider.endSymbol('a}');
+        }]);
+app.controller('Controller', function($scope, $http) {
+    console.log("H1")
+$http.get("{{url_for('all_products_api')}}")
+  .then(function (response) {
+    $scope.rows = response.data;
+    console.log(response.data);
+  });
+});
+</script>
+
+{% endblock bodycontent %}
+<!------------------------------------------------------------------------->
+ 
+    
+    

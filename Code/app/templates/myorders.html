@@ -1,0 +1,41 @@
+{% extends "template.html" %}
+<!------------------------------------------------------------------------->
+{% block headcontent %}
+    <title>My Orders</title> 
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='')}}table.css">
+{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodytag %}<body>{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodycontent %}
+    <br> 
+    <div class="box" style="width:1000px;margin:auto;border: 3px solid #2F4F4F;">
+        <h2 align="center">My Orders</h2>
+        {% if rows|length==0 %}
+            <p style='text-align:center;'>No orders yet.</p>
+        {% else %}
+            <table>
+            <tr>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th>No. Items</th> 
+                <th>Total Amt</th>
+                <th>Status</th>
+                <th>Txn_id</th>
+            </tr>
+            {% for row in rows %}
+                <tr class='pricing-table'>
+                    <td> <a href="{{url_for('order_det',oid=row['Orders_id']) }}">{{row['Orders_id']}}</a> </td>
+                    <td> {{row['OrdersDate']}} </td>
+                    <td> {{row['N_items']}} </td>
+                    <td> Rs.{{row['TotalAmt']}} </td>
+                    <td> {{row['Status']}} </td>
+                    <td> {{row['Txn_id']}} </td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+        <br><br>
+    </div>
+{% endblock bodycontent %}
+<!------------------------------------------------------------------------->

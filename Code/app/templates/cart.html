@@ -1,0 +1,77 @@
+{% extends "template.html" %}
+<!------------------------------------------------------------------------->
+{% block headcontent %}
+<title> Cart </title>
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='')}}cart.css"> 
+{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodytag %}<body>{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodycontent %}
+{% if message %}
+<div class="container">
+    <div class="alert alert-warning">
+        {{ message }}
+    </div>
+</div>
+{% endif %}
+
+<div class="box" style="width:1000px;margin:auto;border: 3px solid #2F4F4F;"> 
+    <p style='font-size:50px; margin-bottom:20px;' align="center">Cart</p>     
+    {% if rows|length==0 %}
+        <h5 style='color:red;text-align:center'>Cart is Empty</h4><br>
+    {% else %}
+        <p id="btnp">
+            <a class="btn" id="clear" href="{{url_for('clear_cart')}}">Clear Cart</a>
+            <a class="btn" id="confirm" href="{{url_for('confirm_cart')}}">Confirm Order</a>
+        </p>
+        <table id='cart-table'>  
+        <tr>
+             <th>Sl. No.</th>
+             <th> Images </th>
+             <th>Product ID</th>
+             <th>Name</th>
+             <th>Qty</th>
+             <th>Amount</th>
+             <th></th>
+        </tr>
+        {% for row in rows %}  
+            <tr id="tr{{row['Prod_id']}}">
+                <td> {{loop.index}} </td>
+                <td> <a href="{{url_for('product',pid=row['Prod_id']) }}"><img src="{{url_for('static',filename='')}}Images/Products/{{ row['Prod_id'] }}.jpg" height='100px' style='max-height:100px;max-width:150px'/> </a> </td>
+                <td> {{ row['Prod_id'] }} </td>  
+                <td> {{ row['Name'] }} </td>
+                <td> {{ row['Quantity'] }} </td>
+                <td> Rs.{{ row['Amount'] }} </td>
+                <td> <a onclick="cartobj.remove({{row['Prod_id']}})"> <img src="{{url_for('static',filename='')}}Images/fail.png" height='50px'/> </a> </td>
+            </tr>
+            
+        {% endfor %}
+        </table>
+        <br>
+        <p style='font-style:30px;padding:20px;border-radius:10px;background:white;width:400px;display:inline-block;'>
+        Your Cart Total is - <strong>Rs.{{ total }}</strong></p>
+        <br><br>
+    {% endif %}  
+</div>
+<script>
+    var cartobj = {
+        xhr: new XMLHttpRequest(),
+        url: "{{ url_for('remove_cart') }}?pid=",
+        remove: function (pid)
+        {
+            cartobj.xhr.onreadystatechange = function(){
+                if(this.readyState==4 && this.status==200){
+                    var res=this.responseText;
+                    elem = document.getElementById("tr"+res);
+                    elem.parentNode.removeChild(elem);
+                }
+            }
+            cartobj.xhr.open("GET",cartobj.url+pid);
+            cartobj.xhr.send();
+        }
+    };
+    
+</script>
+{% endblock bodycontent %}
+<!------------------------------------------------------------------------->

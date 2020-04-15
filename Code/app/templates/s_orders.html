@@ -1,0 +1,42 @@
+{% extends "s_template.html" %}
+<!------------------------------------------------------------------------->
+{% block headcontent %}
+    <title> Seller - Orders </title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='')}}table.css">
+{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodytag %}<body>{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodycontent %}
+
+<br> 
+    <div class="box" style="width:1000px;margin:auto;border: 3px solid #2F4F4F;border-radius:25px;">
+        <h2 align="center">My Orders</h2>
+        {% if rows|length==0 %}
+            <p style='text-align:center;'>No orders yet.</p>
+        {% else %}
+        <table>
+            <tr>
+                <th>Product Id</th>
+                <th>Name</th>
+                <th>Order Id</th>
+                <th>Date</th>
+                <th>Quantity</th>
+                <th>Amount</th>
+            </tr>
+            {% for row in rows %}
+                <tr class='pricing-table'>
+                    <td>{{row['A']}}</td>
+                    <td>{{row['B']}}</td>
+                    <td>{{row['C']}}</td>
+                    <td>{{row['D']}}</td>
+                    <td>{{row['E']}}</td>
+                    <td>{{row['F']}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+        <br><br>
+    </div>
+{% endblock bodycontent %}
+<!------------------------------------------------------------------------->

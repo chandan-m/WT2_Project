@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style type="text/css">
+		.brand_image{
+			height: 70px;
+			width :110px;
+		}
+		body {
+			padding-top: 105px;
+		}
+		<style>
+		.page-footer {
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			text-align: center;
+		}
+	</style>
+
+	<link rel="icon" href="{{url_for('static',filename='')}}favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+	<link rel="stylesheet" href="{{url_for('static',filename='')}}css/bootstrap.min.css">
+	<link rel="stylesheet" href="{{url_for('static',filename='')}}css/mdb.min.css">
+
+	<script type="text/javascript" src="{{url_for('static',filename='')}}js/jquery.min.js"></script>
+	<script type="text/javascript" src="{{url_for('static',filename='')}}js/popper.min.js"></script>
+	<script type="text/javascript" src="{{url_for('static',filename='')}}js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="{{url_for('static',filename='')}}js/mdb.min.js"></script>
+
+	{% block headcontent %}
+	{% endblock %}
+
+</head>
+{% block bodytag %}{% endblock %}
+	<nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar bg-warning">
+		<div class="container">
+			<!-- Navbar brand -->
+			<a class="navbar-brand" href="{{ url_for('seller_home') }}">
+			<img class="brand_image" src="{{url_for('static',filename='')}}Images/logo.jpg" style="width: 60px;height: 60px;border-radius: 50%;">
+			</a>
+
+			<!-- Collapse button -->
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+			aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<!-- Collapsible content -->
+			<div class="collapse navbar-collapse" id="basicExampleNav">
+
+				<!-- Links -->
+				<ul class="navbar-nav mr-auto smooth-scroll">
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url_for('seller_home') }}">Home </a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url_for('seller_orders') }}">My Orders</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{url_for('seller_analytics',what='qty')}}">Analytics</a>
+					</li>
+					<!--
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories</a>
+						<div class="dropdown-menu dropdown-warning" aria-labelledby="navbarDropdown" id="your-custom-id-button">
+							<a class="dropdown-item mdb-dropdownLink" href="#">Electronics</a>
+							<a class="dropdown-item mdb-dropdownLink" href="#">Clothes</a>
+							<a class="dropdown-item mdb-dropdownLink" href="#">Books</a>
+							<a class="dropdown-item mdb-dropdownLink" href="#">Essentials</a>
+							<a class="dropdown-item mdb-dropdownLink" href="#">Phones</a>
+						</div>
+					</li>
+					-->
+					<li class="nav-item">
+						<a class="nav-link" href="#">More</a>
+					</li>
+				</ul>
+			</div>
+
+			<!-- Collapsible content -->
+			<div class="form-inline my-2 my-lg-0" id="navbar-list-4"></div>
+				<ul class="navbar-nav">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="fas fa-user"></i>
+						</a>
+						<div class="dropdown-menu dropdown-menu-center" role="menu" aria-labelledby="navbarDropdownMenuLink">
+							<a class="dropdown-item" href="{{ url_for('logout') }}">Log Out</a>
+							<a class="dropdown-item" href="{{ url_for('my_account') }}">My Account</a>
+						<!--<a class="dropdown-item" href="{{ url_for('my_orders') }}">Order History</a>
+						    <a class="dropdown-item" href="{{ url_for('wallet') }}">Wallet</a>
+							<a class="dropdown-item" href="{{ url_for('get_cart') }}">Cart</a>
+							<a class="dropdown-item" href="{{ url_for('liked') }}">Favourites</a>-->
+						</div>
+					</li>
+				</ul>
+			</div>
+        </div>
+	</nav>
+	<p style='float:right;color:white;padding:5px;' class="bg-warning">Welcome <strong>{{ current_user.username }}</strong></p>
+	<br>
+
+	{% block bodycontent %}
+	{% endblock %}
+
+	<br>
+
+	<footer class="page-footer font-small unique-color-dark bg-warning">
+
+		<!-- Social buttons -->
+		<div class="primary-color bg-warning">
+			<div class="container">
+				<!--Grid row-->
+				<div class="row py-4 d-flex align-items-center">
+					<!--Grid column-->
+					<div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0">
+						<h6 class="mb-0 white-text">Get connected with us on social networks!</h6>
+					</div>
+					<!--Grid column-->
+					<!--Grid column-->
+					<div class="col-md-6 col-lg-7 text-center text-md-right">
+						<!--Facebook-->
+						<a class="fb-ic ml-0">
+							<i class="fab fa-facebook white-text mr-4"> </i>
+						</a>
+						<!--Twitter-->
+						<a class="tw-ic">
+							<i class="fab fa-twitter white-text mr-4"> </i>
+						</a>
+						<!--Google +-->
+						<a class="gplus-ic">
+							<i class="fab fa-google-plus white-text mr-4"> </i>
+						</a>
+						<!--Linkedin-->
+						<a class="li-ic">
+							<i class="fab fa-linkedin white-text mr-4"> </i>
+						</a>
+						<!--Instagram-->
+						<a class="ins-ic">
+							<i class="fab fa-instagram white-text mr-lg-4"> </i>
+						</a>
+					</div>
+					<!--Grid column-->
+				</div>
+				<!--Grid row-->
+			</div>
+		</div>
+		<!-- Social buttons -->
+	
+		<!-- Copyright -->
+		<div class="footer-copyright text-center py-3">© 2020 Copyright:
+			<a> www.ezshopping.in</a>
+		</div>
+		<!-- Copyright -->
+	</footer>
+</body>

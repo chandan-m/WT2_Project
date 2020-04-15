@@ -1,0 +1,41 @@
+{% extends "template.html" %}
+<!------------------------------------------------------------------------->
+{% block headcontent %}
+    <title>Order Details</title> 
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='')}}table.css">
+{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodytag %}<body>{% endblock %}
+<!------------------------------------------------------------------------->
+{% block bodycontent %}
+<br> 
+<div class="box" style="width:1000px;margin:auto;text-align:center;border: 3px solid #2F4F4F;">  
+    <h2 align="center">Order Details</h3>  
+    {% if rows|length==0 %}
+        <p style='text-align:center;'>No Details Found</p>
+    {% else %}
+        <p>Order Id - #{{oid}} </p>
+        <table>
+        <tr>
+            <th>Sl. No.</th>
+            <th>Product</th>
+            <th>Quantity</th> 
+            <th>Amount</th>
+        </tr>
+        {% set i=1 %}
+        {% for row in rows %} 
+            <tr class='pricing-table'>
+                <td> {{i}} </td>
+                <td> <a href="{{url_for('product',pid=row['Prod_id']) }}"> <img src="{{url_for('static',filename='')}}Images/Products/{{ row['Prod_id'] }}.jpg" height='50px'/> </a></td>
+                <td> {{row['Quantity']}} </td>
+                <td> Rs.{{row['Amount']}} </td>
+            </tr>
+            {% set i=i+1 %}
+        {% endfor %}
+        </table>
+        Total Amount = Rs.{{total}}
+    {% endif %}
+    <br><br>
+</div>
+{% endblock bodycontent %}
+<!-------------------------------------------------------------------------> 
